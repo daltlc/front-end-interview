@@ -12,7 +12,7 @@ Front-End Interview Exercises
 
 You are given a React app that renders a Checkers board.
 
-Modify [the existing code](https://github.com/Intelight/front-end-interview/blob/master/stories/Checkers.stories.js#L10) to create a functional Checkers game, by implementing these user requirements:
+Modify [the existing code](https://github.com/Intelight/front-end-interview/blob/master/src/index.js#L105) to create a functional Checkers game, by implementing these user requirements:
 
 1. As a user, I want to move any piece to any space it is allowed to go, so that the board is correctly updated as a result of that move.
    1. If a piece is captured, it is removed from the board.
