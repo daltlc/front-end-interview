@@ -1,17 +1,7 @@
 import React from "react";
-import "./style.css";
+import { render } from "react-dom";
 
-// This is used by Storybook:
-export default {
-  title: "Checkers"
-};
-
-// This is the main app:
-export const Checkers = () => {
-  return <Board size={400} />;
-};
-
-class Board extends React.Component {
+class CheckersBoard extends React.Component {
   state = {
     board: [
       [0, 1, 0, 1, 0, 1, 0, 1],
@@ -109,3 +99,7 @@ class Piece extends React.Component {
     );
   }
 }
+
+const container = document.createElement("div");
+document.body.appendChild(container);
+render(<CheckersBoard size={400} />, container);
