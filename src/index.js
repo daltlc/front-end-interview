@@ -1,8 +1,8 @@
+//index.js acts basically as Board Component
 import React from "react";
 import { render } from "react-dom";
 import Piece from "./components/Piece.js";
 import Space from "./components/Space.js";
-// import './styles/main.scss';
 
 class CheckersBoard extends React.Component {
   state = {
@@ -18,10 +18,36 @@ class CheckersBoard extends React.Component {
     ],
     playersTurn: 1,
     moves: 0,
-    selected: []
+    selected: [],
+    gameOver: false
   };
 
   switchPlayer = (nextPlayer, newBoard) => {
+    //Looking through combined array of board state to determine if there are any 1's or 2's left, hence the game would be over
+    // let mix = [];
+    // let all = [];
+    // all.push(this.state.board);
+    // for (var i = 0; all.length !== 0; i++) {
+    // 	var j = 0;
+    // 	while (j < all.length) {
+    // 		if (i >= all[j].length) {
+    // 			all.splice(j, 1);
+    // 		} else {
+    // 			mix.push(all[j][i]);
+    // 			j += 1;
+    // 		}
+    // 	}
+    // 	mix.forEach((element) => {
+    // 		if ((element = 1 && 2)) {
+    // 			console.log('keep playing');
+    // 		} else {
+    // 			this.state.gameOver = true;
+    // 			console.log('Out of pieces');
+    // 		}
+    // 	});
+    // }
+    // console.log(mix);
+
     this.setState({
       playersTurn: nextPlayer,
       moves: 0,
@@ -41,10 +67,16 @@ class CheckersBoard extends React.Component {
   render() {
     const spaceSize = this.props.size / 8;
     const pieceRadius = spaceSize / 2;
+    const h2Styles = {
+      color: "black",
+      textAlign: "center",
+      fontFamily: "monospace"
+    };
+    const boardStyles = { textAlign: "center" };
 
     return (
-      <div>
-        <h2>Player {this.state.playersTurn}'s turn</h2>
+      <div style={boardStyles}>
+        <h2 style={h2Styles}> PLAYER {this.state.playersTurn}'s TURN</h2>
         <svg
           height={this.props.size}
           width={this.props.size}
