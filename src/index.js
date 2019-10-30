@@ -31,7 +31,7 @@ class CheckersBoard extends React.Component {
   boardChange = (newBoard, newPieceSelected, newMoves) => {
     this.setState({
       board: newBoard,
-      pieceSelected: newPieceSelected,
+      selected: newPieceSelected,
       moves: newMoves
     });
   };
@@ -86,11 +86,11 @@ class CheckersBoard extends React.Component {
                 player={space}
                 radius={pieceRadius * 0.75}
                 onPieceClick={this.boardChange}
-                board={this.state.board}
-                spaceSize={spaceSize}
-                playersTurn={this.state.playersTurn}
                 selected={this.state.selected}
+                spaceSize={spaceSize}
                 moves={this.state.moves}
+                board={this.state.board}
+                playersTurn={this.state.playersTurn}
               />
             );
           });

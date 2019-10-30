@@ -10,11 +10,22 @@ class Piece extends React.Component {
     console.log(col, row);
     console.log(board);
     console.log(board[row][col]);
-    console.log(this.playersTurn);
-    if (board[row][col] === this.props.playersTurn && this.props.moves === 0) {
+    console.log(this.props.playersTurn);
+    console.log(this.props.selected);
+    if (
+      Math.abs(board[row][col]) === this.props.playersTurn &&
+      this.props.moves === 0
+    ) {
       let selected = [row, col];
       let selectedRow = selected[0];
       let selectedCol = selected[1];
+
+      if (this.props.selected.length > 0) {
+        let lastRowSelected = this.props.selected[0];
+        let lastColSelected = this.props.selected[1];
+        board[lastRowSelected][lastColSelected] /= 10;
+      }
+
       if (selected.length > 0) {
         board[selectedRow][selectedCol] *= 10;
         this.props.onPieceClick(board, selected, this.props.moves);
@@ -23,7 +34,7 @@ class Piece extends React.Component {
   };
   render() {
     return (
-      <g onClick={this.onPieceClick}>
+      <g style={{ cursor: "pointer" }} onClick={this.onPieceClick}>
         <circle
           cx={this.props.centerX}
           cy={this.props.centerY}
@@ -38,7 +49,7 @@ class Piece extends React.Component {
             Math.abs(this.props.player) === 10 ||
             Math.abs(this.props.player) === 20
               ? "yellow"
-              : "black"
+              : null
           }
           strokeWidth="3"
         />
