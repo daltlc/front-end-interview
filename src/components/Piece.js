@@ -6,12 +6,7 @@ class Piece extends React.Component {
     let col = (this.props.centerX - this.props.radius / 0.75) / spaceSize;
     let row = (this.props.centerY - this.props.radius / 0.75) / spaceSize;
     let board = this.props.board;
-    console.log(spaceSize);
-    console.log(col, row);
-    console.log(board);
-    console.log(board[row][col]);
-    console.log(this.props.playersTurn);
-    console.log(this.props.selected);
+
     if (
       Math.abs(board[row][col]) === this.props.playersTurn &&
       this.props.moves === 0
@@ -41,21 +36,21 @@ class Piece extends React.Component {
           fill={
             Math.abs(this.props.player) === 1 ||
             Math.abs(this.props.player) === 10
-              ? "white"
-              : "red"
+              ? "red"
+              : "blue"
           }
           r={this.props.radius}
           stroke={
             Math.abs(this.props.player) === 10 ||
             Math.abs(this.props.player) === 20
               ? "yellow"
-              : null
+              : "black"
           }
           strokeWidth="3"
         />
         {this.props.player < 0 && (
           <text x={this.props.centerX - 5} y={this.props.centerY + 5}>
-            k
+            K
           </text>
         )}
       </g>
