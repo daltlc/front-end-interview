@@ -1,5 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
+import Piece from "./components/Piece.js";
+import Space from "./components/Space.js";
+// import './styles/main.scss';
 
 class CheckersBoard extends React.Component {
   state = {
@@ -12,7 +15,27 @@ class CheckersBoard extends React.Component {
       [2, 0, 2, 0, 2, 0, 2, 0],
       [0, 2, 0, 2, 0, 2, 0, 2],
       [2, 0, 2, 0, 2, 0, 2, 0]
-    ]
+    ],
+    playersTurn: 1,
+    moves: 0,
+    selected: []
+  };
+
+  switchPlayer = (nextPlayer, newBoard) => {
+    this.setState({
+      playersTurn: nextPlayer,
+      moves: 0,
+      board: newBoard,
+      selected: []
+    });
+  };
+
+  boardChange = (newBoard, newPieceSelected, newMoves) => {
+    this.setState({
+      board: newBoard,
+      selected: newPieceSelected,
+      moves: newMoves
+    });
   };
 
   render() {
@@ -20,82 +43,71 @@ class CheckersBoard extends React.Component {
     const pieceRadius = spaceSize / 2;
 
     return (
-      <svg
-        height={this.props.size}
-        width={this.props.size}
-        viewBox={`0 0 ${this.props.size} ${this.props.size}`}
-      >
-        {this.state.board.map((row, y) => {
-          const isEvenRow = y % 2;
-          const spaceY = spaceSize * y;
+      <div>
+        <h2>Player {this.state.playersTurn}'s turn</h2>
+        <svg
+          height={this.props.size}
+          width={this.props.size}
+          viewBox={`0 0 ${this.props.size} ${this.props.size}`}
+        >
+          {this.state.board.map((row, y) => {
+            const isEvenRow = y % 2;
+            const spaceY = spaceSize * y;
 
-          return row.map((space, x) => {
-            const isEvenSpace = x % 2;
-            const spaceX = spaceSize * x;
+            return row.map((space, x) => {
+              const isEvenSpace = x % 2;
+              const spaceX = spaceSize * x;
 
-            return (
-              <Space
-                key={x}
-                shade={
-                  (isEvenSpace && !isEvenRow) || (!isEvenSpace && isEvenRow)
-                }
-                size={spaceSize}
-                x={spaceX}
-                y={spaceY}
-              />
-            );
-          });
-        })}
-        {this.state.board.map((row, y) => {
-          const spaceY = spaceSize * y;
+              return (
+                <Space
+                  key={x}
+                  shade={
+                    (isEvenSpace && !isEvenRow) || (!isEvenSpace && isEvenRow)
+                  }
+                  size={spaceSize}
+                  x={spaceX}
+                  y={spaceY}
+                  board={this.state.board}
+                  spaceSize={spaceSize}
+                  selected={this.state.selected}
+                  playersTurn={this.state.playersTurn}
+                  spaceOnClick={this.boardChange}
+                  moves={this.state.moves}
+                  switchPlayer={this.switchPlayer}
+                />
+              );
+            });
+          })}
+          {this.state.board.map((row, y) => {
+            const spaceY = spaceSize * y;
 
-          return row.map((space, x) => {
-            const spaceX = spaceSize * x;
+            return row.map((space, x) => {
+              const spaceX = spaceSize * x;
 
-            if (space === 0) {
-              // The space is empty.
-              return null;
-            }
+              if (space === 0) {
+                // The space is empty.
+                return null;
+              }
 
-            return (
-              <Piece
-                key={x}
-                centerX={spaceX + pieceRadius}
-                centerY={spaceY + pieceRadius}
-                player={space}
-                radius={pieceRadius * 0.75}
-              />
-            );
-          });
-        })}
-      </svg>
-    );
-  }
-}
-
-class Space extends React.Component {
-  render() {
-    return (
-      <rect
-        fill={this.props.shade ? "green" : "lightgray"}
-        height={this.props.size}
-        width={this.props.size}
-        x={this.props.x}
-        y={this.props.y}
-      />
-    );
-  }
-}
-
-class Piece extends React.Component {
-  render() {
-    return (
-      <circle
-        cx={this.props.centerX}
-        cy={this.props.centerY}
-        fill={this.props.player === 1 ? "white" : "red"}
-        r={this.props.radius}
-      />
+              return (
+                <Piece
+                  key={x}
+                  centerX={spaceX + pieceRadius}
+                  centerY={spaceY + pieceRadius}
+                  player={space}
+                  radius={pieceRadius * 0.75}
+                  onPieceClick={this.boardChange}
+                  selected={this.state.selected}
+                  spaceSize={spaceSize}
+                  moves={this.state.moves}
+                  board={this.state.board}
+                  playersTurn={this.state.playersTurn}
+                />
+              );
+            });
+          })}
+        </svg>
+      </div>
     );
   }
 }
