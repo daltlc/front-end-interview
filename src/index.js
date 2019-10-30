@@ -1,5 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
+import Piece from "./components/Piece.js";
+import Space from "./components/Space.js";
 
 class CheckersBoard extends React.Component {
   state = {
@@ -12,7 +14,26 @@ class CheckersBoard extends React.Component {
       [2, 0, 2, 0, 2, 0, 2, 0],
       [0, 2, 0, 2, 0, 2, 0, 2],
       [2, 0, 2, 0, 2, 0, 2, 0]
-    ]
+    ],
+    playersTurn: 1,
+    moves: 0,
+    selected: []
+  };
+
+  switchPlayer = (nextPlayer, newBoard) => {
+    this.setState({
+      playersTurn: nextPlayer,
+      moves: 0,
+      board: newBoard
+    });
+  };
+
+  boardChange = (newBoard, newPieceSelected, newMoves) => {
+    this.setState({
+      board: newBoard,
+      pieceSelected: newPieceSelected,
+      moves: newMoves
+    });
   };
 
   render() {
@@ -64,38 +85,17 @@ class CheckersBoard extends React.Component {
                 centerY={spaceY + pieceRadius}
                 player={space}
                 radius={pieceRadius * 0.75}
+                onPieceClick={this.boardChange}
+                board={this.state.board}
+                spaceSize={spaceSize}
+                playersTurn={this.state.playersTurn}
+                selected={this.state.selected}
+                moves={this.state.moves}
               />
             );
           });
         })}
       </svg>
-    );
-  }
-}
-
-class Space extends React.Component {
-  render() {
-    return (
-      <rect
-        fill={this.props.shade ? "green" : "lightgray"}
-        height={this.props.size}
-        width={this.props.size}
-        x={this.props.x}
-        y={this.props.y}
-      />
-    );
-  }
-}
-
-class Piece extends React.Component {
-  render() {
-    return (
-      <circle
-        cx={this.props.centerX}
-        cy={this.props.centerY}
-        fill={this.props.player === 1 ? "white" : "red"}
-        r={this.props.radius}
-      />
     );
   }
 }
